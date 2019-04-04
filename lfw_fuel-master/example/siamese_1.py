@@ -26,7 +26,7 @@ from lfw_fuel import lfw
 '''
 
 batch_size = 128
-nb_epoch = 50
+nb_epoch = 12
 feature_width = 64
 feature_height = 64
 downsample_size = 64
@@ -148,16 +148,16 @@ def compute_real_accuracy(predictions, labels, threshold):
 
 def create_base_network(input_shape):
     net = Sequential()
-    net.add(Conv2D(15, (7,7), input_shape=input_shape, padding='same', data_format='channels_last', activation='relu'))
+    net.add(Conv2D(32, (5,5), input_shape=input_shape, padding='same', data_format='channels_last', activation='relu'))
     # net.add(BatchNormalization())
     net.add(MaxPooling2D(pool_size=(2,2), data_format='channels_last'))
     # net.add(Dropout(0.2))
 
-    net.add(Conv2D(45, (6,6), padding='same', data_format='channels_last', activation='relu'))
+    net.add(Conv2D(64, (6,6), padding='same', data_format='channels_last', activation='relu'))
     # net.add(BatchNormalization())
     net.add(MaxPooling2D(pool_size=(5,5), data_format='channels_last'))
     #net.add(Dropout(0.3))
-    net.add(Conv2D(250, (5,5), padding = 'same', data_format = 'channels_last', activation = 'relu'))
+    net.add(Conv2D(128, (5,5), padding = 'same', data_format = 'channels_last', activation = 'relu'))
 
 
     # net.add(Conv2D(128, (3,3), padding='same', data_format='channels_last', activation='relu'))
@@ -192,7 +192,7 @@ pred = model.predict([train_pairs[0], train_pairs[1]])
 print(pred[:30])
 print(pred[-30:])
 
-thresholds = [1.08,1.1, 1.12,1.14, 1.16, 1.18,1.20,1.22]
+thresholds = [0.3,0.4,0.5,0.6,0.7]
 for threshold in thresholds:
     acc= compute_accuracy(pred, y_train, threshold)
     new_acc = compute_real_accuracy(pred, y_train, threshold)
