@@ -1,1 +1,1 @@
-# cs578_project
+# Face Verification 
